@@ -1,5 +1,5 @@
-# 2260-02_A2_Miranda_Manuel
-A2 for CS 2260-02: Mini Twitter
+# 2260-02_A3_Miranda_Manuel
+A3 for CS 2260-02: Mini Twitter
 
 Demo: https://youtu.be/Wn6veZ7_nAs
 
