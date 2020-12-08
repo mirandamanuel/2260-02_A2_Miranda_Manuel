@@ -6,11 +6,15 @@ public class User extends Observable implements Constituent, Observer, Visitable
     private ArrayList<Constituent> usersFollowing = new ArrayList<Constituent>();
     private ArrayList<Constituent> followedUsers = new ArrayList<Constituent>();
     private String name;
+    private long creationTime;
+    private long lastUpdateTime;
+
     Feed userFeed = new Feed();
     Feed globalFeed = new Feed(); //this feed contains all messages by this user and those they follow
 
     public User(String name){
         this.name = name;
+        creationTime = System.currentTimeMillis();
     }
 
     @Override
@@ -21,6 +25,19 @@ public class User extends Observable implements Constituent, Observer, Visitable
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(long time){
+        lastUpdateTime = time;
     }
 
     @Override

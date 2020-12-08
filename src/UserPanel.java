@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -31,6 +32,8 @@ public class UserPanel implements Observer {
             this.tweetPanel = createTweetPanel();
             this.feedPanel = createFeedPanel();
             createAndOpenPanel((User) currentUser);
+            Date creation = new Date(currentUser.getCreationTime());
+            System.out.println("User " + currentUser.getName() + " created: " + creation);
         }
         else if(currentUser instanceof UserGroup){
             JOptionPane.showMessageDialog(new JOptionPane(), "You have selected a User Group not a User");
@@ -38,6 +41,7 @@ public class UserPanel implements Observer {
     }
 
     public void createAndOpenPanel(User currentUser){
+        Date creation = new Date(currentUser.getCreationTime());
         window = new JFrame(currentUser.getName()+"'s Mini Twitter");
         window.setMinimumSize(new Dimension(800, 600));
         window.setMaximumSize(new Dimension(800, 600));
@@ -151,7 +155,9 @@ public class UserPanel implements Observer {
                 String userMessage = currentUser.getName()+": " + tweetField.getText();
                 currentUser.getUserFeed().addToFeed(userMessage);
                 currentUser.getGlobalFeed().addToFeed(userMessage);
-                //printFeed(currentUser.getGlobalFeed());
+                currentUser.setLastUpdateTime(System.currentTimeMillis());
+                Date lastUpdate = new Date(currentUser.getLastUpdateTime());
+                System.out.println("User " + currentUser.getName() + "'s last update: " + lastUpdate);
             }
         });
         return tweetButton;

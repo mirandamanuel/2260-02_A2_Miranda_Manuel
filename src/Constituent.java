@@ -1,10 +1,11 @@
 import java.util.ArrayList;
-import java.util.Observable;
 
 public interface Constituent extends Visitable {
     void add(Constituent constituent);
 
     String getName();
+
+    long getCreationTime();
 
     ArrayList<Constituent> getUsersFollowingThisUser();
 

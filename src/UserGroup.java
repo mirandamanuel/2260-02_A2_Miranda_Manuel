@@ -7,9 +7,11 @@ public class UserGroup extends Observable implements Constituent, Observer, Visi
     private ArrayList<Constituent> followedUsers = new ArrayList<>();
     private ArrayList<Constituent> subUsers = new ArrayList<Constituent>();
     private String name;
+    private long creationTime;
 
     public UserGroup(String name){
         this.name = name;
+        creationTime = System.currentTimeMillis();
     }
 
     @Override
@@ -22,6 +24,11 @@ public class UserGroup extends Observable implements Constituent, Observer, Visi
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public long getCreationTime() {
+        return creationTime;
     }
 
     @Override
@@ -45,13 +52,6 @@ public class UserGroup extends Observable implements Constituent, Observer, Visi
             if (constituent.getName().equalsIgnoreCase(username)) {
                 return constituent;
             }
-//            else {
-//                for (Constituent constituent2 : constituent.getSubUsers()) {
-//                    if (constituent.getName().equalsIgnoreCase(username)) {
-//                        return constituent;
-//                    }
-//                }
-//            }
         }
         throw new RuntimeException("Could not find user");
     }

@@ -6,6 +6,7 @@ import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -102,13 +103,15 @@ public class AdminControlPanel implements Observer {
 
     private JPanel createTotalsPanel(){
         JPanel totalsPanel = new JPanel();
-        totalsPanel.setLayout(new GridLayout(2,2));
+        totalsPanel.setLayout(new GridLayout(3,1));
         totalsPanel.setBounds(220,310, 550, 200);
         totalsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         totalsPanel.add(addUserTotalButton());
         totalsPanel.add(addGroupTotalButton());
         totalsPanel.add(addMessagesTotalButton());
         totalsPanel.add(addPosMessageButton());
+        totalsPanel.add(addValidateButton());
+        totalsPanel.add(addLastUpdateButton());
 
         return totalsPanel;
     }
@@ -213,6 +216,44 @@ public class AdminControlPanel implements Observer {
             }
         });
         return posMessageButton;
+    }
+
+    private JButton addValidateButton(){
+        JButton validateButton = new JButton("Validate IDs");
+        validateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean isValid = true;
+                for(Constituent current : root.getSubUsers()){
+                    if(current.getName().contains(" "))
+                        isValid = false;
+                }
+                if(isValid)
+                    JOptionPane.showMessageDialog(new JOptionPane(), "User IDs: "+ "Valid");
+                else
+                    JOptionPane.showMessageDialog(new JOptionPane(), "User IDs: "+ "Not Valid");
+            }
+        });
+        return validateButton;
+    }
+
+    private JButton addLastUpdateButton(){
+        JButton validateButton = new JButton("Last Update");
+        validateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User lastUpdate = (User) root.getSubUsers().get(0);
+                for(Constituent current : root.getSubUsers()){
+                    if(current instanceof User){
+                        if(((User) current).getLastUpdateTime() > lastUpdate.getLastUpdateTime()){
+                            lastUpdate = (User) current;
+                        }
+                    }
+                }
+                JOptionPane.showMessageDialog(new JOptionPane(), "Last User to Update: "+ lastUpdate.getName() +" at " +new Date(lastUpdate.getLastUpdateTime()));
+            }
+        });
+        return validateButton;
     }
 
     public UserGroup getRoot(){
